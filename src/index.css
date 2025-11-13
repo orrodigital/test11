@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS for fullscreen weather app */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow: hidden; /* Prevent scrolling for fullscreen experience */
+  }
+
+  body {
+    @apply font-sans antialiased;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #1a1a1a; /* Dark background for fullscreen map */
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Prevent pull-to-refresh on mobile */
+  body {
+    overscroll-behavior: none;
+  }
+}
+
+@layer components {
+  /* Fullscreen glassmorphism effect */
+  .glass {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Map overlay styles */
+  .map-overlay {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Button enhancements for dark theme */
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:ring-4 focus:ring-blue-200;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-6 rounded-xl border border-white/20 transition-all duration-300 transform hover:scale-105 focus:ring-4 focus:ring-white/20;
+  }
+
+  /* Weather overlay cards */
+  .weather-overlay-card {
+    @apply bg-black/20 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-white shadow-2xl;
+  }
+
+  /* Swipe indicators */
+  .swipe-indicator {
+    @apply bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 border border-white/30;
+  }
+
+  /* Loading animations */
+  .loading-pulse {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Fullscreen map styles */
+  .leaflet-container {
+    height: 100vh !important;
+    width: 100vw !important;
+    z-index: 1;
+  }
+
+  /* Remove leaflet attribution for fullscreen experience */
+  .leaflet-control-attribution {
+    opacity: 0.3;
+    font-size: 8px;
+  }
+
+  /* Custom map controls */
+  .leaflet-control-zoom {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .leaflet-control-zoom a {
+    background: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    font-weight: bold !important;
+  }
+
+  .leaflet-control-zoom a:hover {
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Mobile-specific styles */
+  @media (max-width: 768px) {
+    .leaflet-control-zoom {
+      display: none; /* Hide default zoom controls on mobile */
+    }
+  }
+
+  /* Orientation-specific styles */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .mobile-presenter-trigger {
+      display: block;
+    }
+  }
+
+  @media (orientation: portrait) {
+    .mobile-presenter-trigger {
+      display: none;
+    }
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+  }
+}
+
+@keyframes rain-drop {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Swipe gesture visual feedback */
+.swipe-left {
+  animation: swipeLeft 0.3s ease-out;
+}
+
+.swipe-right {
+  animation: swipeRight 0.3s ease-out;
+}
+
+@keyframes swipeLeft {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-20px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes swipeRight {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0); }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+  }
+}
